@@ -12,18 +12,22 @@ const MainLayout = ({ children }) => {
 
   return (
     <div style={styles.layoutContainer}>
-      {/* Passa o estado e a função para a Sidebar */}
-      <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
-      <div
-        style={{
-          ...styles.contentContainer,
-          marginLeft: isSidebarOpen ? '250px' : '70px', // Ajusta a margem do conteúdo principal
-        }}
-      >
-        <NavBar toggleSidebar={toggleSidebar} />
-        <main style={styles.mainContent}>
-          {children}
-        </main>
+      {/* O NavBar é sempre fixo e independente */}
+      <NavBar toggleSidebar={toggleSidebar} />
+      
+      <div style={styles.mainContainer}>
+        <SideBar isOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+        
+        <div
+          style={{
+            ...styles.contentContainer,
+            marginLeft: isSidebarOpen ? '250px' : '0',
+          }}
+        >
+          <main style={styles.mainContent}>
+            {children}
+          </main>
+        </div>
       </div>
     </div>
   );
@@ -32,12 +36,19 @@ const MainLayout = ({ children }) => {
 const styles = {
   layoutContainer: {
     display: 'flex',
+    flexDirection: 'column',
+    height: '100vh',
+  },
+  mainContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flex: 1,
   },
   contentContainer: {
     flex: 1,
-    display: 'flex',
-    flexDirection: 'column',
     transition: 'margin-left 0.3s',
+    padding: '20px',
+    overflow: 'auto',
   },
   mainContent: {
     padding: '20px',

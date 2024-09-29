@@ -1,19 +1,43 @@
-// src/components/SideBar.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaHome, FaBook, FaChalkboardTeacher, FaUniversity, FaCalendarAlt } from 'react-icons/fa'; // Ícones do React Icons
+import { RiMenuUnfold4Fill } from "react-icons/ri";
+
 
 const SideBar = ({ isOpen, toggleSidebar }) => {
   return (
     <div>
       <button onClick={toggleSidebar} style={styles.toggleButton}>
-        ☰
+      <RiMenuUnfold4Fill size={25} />
       </button>
-      <div style={{ ...styles.sidebar, left: isOpen ? '0' : '-180px' }}>
+      <div style={{ ...styles.sidebar, left: isOpen ? '0' : '-250px' }}>
         <h2 style={styles.sidebarTitle}>Menu</h2>
         <ul style={styles.sidebarList}>
-          <li><a href="#home" style={styles.sidebarLink}>Home</a></li>
-          <li><a href="#services" style={styles.sidebarLink}>Serviços</a></li>
-          <li><a href="#about" style={styles.sidebarLink}>Sobre</a></li>
-          <li><a href="#contact" style={styles.sidebarLink}>Contato</a></li>
+          <li>
+            <Link to="/" style={styles.sidebarLink}>
+              <FaHome style={styles.icon} /> Home
+            </Link>
+          </li>
+          <li>
+            <Link to="/disciplina" style={styles.sidebarLink}>
+              <FaBook style={styles.icon} /> Disciplinas
+            </Link>
+          </li>
+          <li>
+            <Link to="/professor" style={styles.sidebarLink}>
+              <FaChalkboardTeacher style={styles.icon} /> Professores
+            </Link>
+          </li>
+          <li>
+            <Link to="/curso" style={styles.sidebarLink}>
+              <FaUniversity style={styles.icon} /> Cursos
+            </Link>
+          </li>
+          <li>
+            <Link to="/disponibilidade" style={styles.sidebarLink}>
+              <FaCalendarAlt style={styles.icon} /> Disponibilidade
+            </Link>
+          </li>
         </ul>
       </div>
     </div>
@@ -23,10 +47,10 @@ const SideBar = ({ isOpen, toggleSidebar }) => {
 const styles = {
   toggleButton: {
     position: 'fixed',
-    top: '20px',
+    top: '10px',
     left: '20px',
     fontSize: '24px',
-    backgroundColor: '#06826C',
+    backgroundColor: '#3B0164',
     color: '#fff',
     border: 'none',
     cursor: 'pointer',
@@ -38,7 +62,7 @@ const styles = {
     position: 'fixed',
     top: '0',
     left: '-250px', // Fora da tela inicialmente
-    backgroundColor: '#06826C',
+    backgroundColor: '#3B0164',
     color: 'black',
     overflowX: 'hidden',
     transition: '0.3s',
@@ -55,11 +79,15 @@ const styles = {
     margin: '0',
   },
   sidebarLink: {
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center', // Alinha os ícones e o texto na mesma linha
     color: '#fff',
     padding: '10px 20px',
     textDecoration: 'none',
     transition: '0.3s',
+  },
+  icon: {
+    marginRight: '10px', // Espaçamento entre o ícone e o texto
   },
 };
 

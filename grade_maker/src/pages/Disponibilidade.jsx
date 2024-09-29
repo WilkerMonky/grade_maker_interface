@@ -1,7 +1,10 @@
+import { Center } from "@chakra-ui/react"
 
 function Disponibilidade(){
     return (
-        <h1>Disponibilidade</h1>
+        <Center>
+             <h1>disciplina</h1>
+        </Center>
     )
 }
 

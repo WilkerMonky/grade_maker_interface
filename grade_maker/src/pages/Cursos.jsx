@@ -1,7 +1,10 @@
+import { Center } from "@chakra-ui/react"
 
 function Curso(){
     return (
-        <h1>Curso</h1>
+        <Center>
+            <h1>Curso</h1>
+        </Center>
     )
 }
 
