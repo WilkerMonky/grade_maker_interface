@@ -4,6 +4,7 @@ import './App.css'
 import AppRouter from './Routers'
 import { ChakraProvider } from '@chakra-ui/react'
 import ThemeLight from './themes/themeLight'
+import ThemeDark from './themes/ThemeDark'
 import { Container } from '@chakra-ui/react'
 
 function App() {

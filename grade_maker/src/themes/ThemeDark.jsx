@@ -1,8 +1,8 @@
 import { extendTheme } from '@chakra-ui/react';
 
-const ThemeLight = extendTheme({
+const ThemeDark = extendTheme({
   config: {
-    initialColorMode: 'light', // Define o modo inicial como escuro
+    initialColorMode: 'dark', // Define o modo inicial como escuro
     useSystemColorMode: false, // Ignora a preferência do sistema
   },
   colors: {
@@ -22,11 +22,11 @@ const ThemeLight = extendTheme({
   styles: {
     global: {
       'html, body': {
-        bg: 'gray.200', // Usa uma cor existente para o fundo escuro
-        color: 'Black', // Texto branco para melhor contraste
+        bg: 'gray.800', // Usa uma cor existente para o fundo escuro
+        color: 'white', // Texto branco para melhor contraste
       },
     },
   },
 });
 
-export default ThemeLight;
+export default ThemeDark;
