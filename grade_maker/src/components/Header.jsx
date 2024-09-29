@@ -3,7 +3,7 @@ import React from 'react';
 const Header = () => {
   return (
 <header style={{ 
-  backgroundColor: '#333', 
+  backgroundColor: '#06826C', 
   padding: '35px', 
   color: '#fff', 
   textAlign: 'center', 

@@ -22,8 +22,8 @@ const ThemeDark = extendTheme({
   styles: {
     global: {
       'html, body': {
-        bg: 'gray.900', // Usa uma cor existente para o fundo escuro
-        color: 'white', // Texto branco para melhor contraste
+        bg: 'gray.200', // Usa uma cor existente para o fundo escuro
+        color: 'Black', // Texto branco para melhor contraste
       },
     },
   },
