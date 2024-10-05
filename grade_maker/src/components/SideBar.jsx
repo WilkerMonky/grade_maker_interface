@@ -8,7 +8,7 @@ const SideBar = ({ isOpen, toggleSidebar }) => {
   return (
     <div>
       <button onClick={toggleSidebar} style={styles.toggleButton}>
-      <RiMenuUnfold4Fill size={25} />
+      <RiMenuUnfold4Fill size={40} />
       </button>
       <div style={{ ...styles.sidebar, left: isOpen ? '0' : '-250px' }}>
         <h2 style={styles.sidebarTitle}>Menu</h2>
@@ -47,8 +47,8 @@ const SideBar = ({ isOpen, toggleSidebar }) => {
 const styles = {
   toggleButton: {
     position: 'fixed',
-    top: '10px',
-    left: '20px',
+    top: '20px',
+    left: '10px',
     fontSize: '24px',
     backgroundColor: '#3B0164',
     color: '#fff',
