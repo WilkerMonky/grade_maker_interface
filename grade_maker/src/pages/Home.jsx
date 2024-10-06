@@ -1,10 +1,9 @@
-import { useState } from "react";
-import { Center, Square, Circle } from '@chakra-ui/react'
+import { Center, Heading } from '@chakra-ui/react'
 
 function Home(){
     return (
-        <Center>
-            <h1>Home</h1>            
+        <Center flexDirection="column">
+            <Heading as="h1" className="page-title">Home</Heading>
         </Center>
     )
 }

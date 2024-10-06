@@ -1,7 +1,7 @@
 // src/components/MainLayout.jsx
 import React, { useState } from 'react';
-import NavBar from './NavBar';
-import SideBar from './SideBar';
+import NavBar from './NavBar/NavBar';
+import SideBar from './NavBar/SideBar';  
 
 const MainLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);

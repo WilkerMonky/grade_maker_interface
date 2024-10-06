@@ -1,19 +1,18 @@
 import React from 'react';
-import { Center } from '@chakra-ui/react';
 
-const Header = ({ children }) => {
+const Header = () => {
   return (
 <header style={{ 
   backgroundColor: '#3B0164', 
-  padding: '0px', 
+  padding: '25px', 
   color: '#fff', 
   textAlign: 'center', 
   display: 'flex', 
-  justifyContent: 'right', 
-  alignItems: 'right',
+  justifyContent: 'space-between', 
+  alignItems: 'center',
   width: '100%' 
 }}>
-  {children}
+
 </header>
 
   );

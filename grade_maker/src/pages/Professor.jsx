@@ -1,39 +1,37 @@
-import React, { useState } from "react";
-import { Center, Button } from "@chakra-ui/react";
-import TableProf from "../components/TableProf";
-import FormProf from "../components/FormProf";
+import React, { useState } from 'react';
+import FormProf from '../components/Forms/FormProf';
+import TableProf from '../components/tables/TableProf';
+import '../components/global.css';
+import { Heading } from '@chakra-ui/react';
 
-function Professor() {
-  // Estado para controlar a visibilidade do formulário
-  const [showForm, setShowForm] = useState(false);
+const ProfessorPage = () => {
 
-  // Função para alternar a visibilidade do formulário
-  const toggleForm = () => {
-    setShowForm(!showForm);
-  };
+    const [isOpen, setIsOpen] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
 
-  return (
-    <div>
-      <Center>
-        <h1 style={{ marginBottom: '30px' }}>Professor</h1>
-      </Center>
-      <Center>
-        <div>
-          <TableProf />
+    const handleProfessorAdded = () => {
+        setRefreshKey(oldKey => oldKey + 1);
+        setIsOpen(false);
+    };
+
+    return (
+        <div className="page-container">
+            <div className="content-wrapper">
+                <Heading as="h1" className="page-title">Professor</Heading>
+                <div className="button-container">
+                    <button className="add-button" onClick={() => setIsOpen(true)}>
+                        Adicionar Professor
+                    </button>
+                </div>
+                <FormProf 
+                    isOpen={isOpen} 
+                    onClose={() => setIsOpen(false)} 
+                    onProfessorAdded={handleProfessorAdded}
+                />
+                <TableProf key={refreshKey} />
+            </div>
         </div>
-      </Center>
-      <Center>
-        <Button colorScheme="teal" onClick={toggleForm} mt={4}>
-          {showForm ? "Fechar Formulário" : "Abrir Formulário"}
-        </Button>
-      </Center>
-      {showForm && (
-        <Center>
-          <FormProf />
-        </Center>
-      )}
-    </div>
-  );
-}
+    );
+};
 
-export default Professor;
+export default ProfessorPage;

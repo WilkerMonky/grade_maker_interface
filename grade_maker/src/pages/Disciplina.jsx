@@ -1,11 +1,36 @@
-import { Center } from "@chakra-ui/react"
+import React, { useState } from 'react';
+import FormDisc from '../components/Forms/FormDisc';
+import TableDisc from '../components/tables/TableDisc';
+import '../components/global.css';
+import { Heading } from '@chakra-ui/react';
 
-function Disciplina(){
+const DisciplinaPage = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    const handleDisciplinaAdded = () => {
+        setRefreshKey(oldKey => oldKey + 1);
+        setIsOpen(false);
+    };
+
     return (
-       <Center>
-         <h1>disciplina</h1>
-       </Center>
-    )
-}
+        <div className="page-container">
+            <div className="content-wrapper">
+                <Heading as="h1" className="page-title">Disciplina</Heading>
+                <div className="button-container">
+                    <button className="add-button" onClick={() => setIsOpen(true)}>
+                        Adicionar Disciplina
+                    </button>
+                </div>
+                <FormDisc 
+                    isOpen={isOpen} 
+                    onClose={() => setIsOpen(false)} 
+                    onDisciplinaAdded={handleDisciplinaAdded}
+                />
+                <TableDisc key={refreshKey} />
+            </div>
+        </div>
+    );
+};
 
-export default Disciplina
+export default DisciplinaPage;
