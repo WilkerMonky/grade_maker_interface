@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import './App.css'
-import AppRouter from './Routers'
+import AppRouter from './Routes'
 import { ChakraProvider } from '@chakra-ui/react'
 import ThemeLight from './themes/themeLight'
 import ThemeDark from './themes/ThemeDark'
