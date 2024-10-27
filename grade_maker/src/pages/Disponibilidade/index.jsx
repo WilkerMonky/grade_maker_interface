@@ -1,127 +1,77 @@
-import React, { useEffect, useState } from "react";
-import { Center } from "@chakra-ui/react";
-import "./style.css";
-import { getDias, getTurnos, insertDisponibilidade } from "./service";
+import {
+  Box,
+  Button,
+  Flex,
+  Grid,
+  Heading,
+  Input,
+  Text,
+  Image,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import React from "react";
+import imagemPrincipal from "../../assets/ImagemFigma.png";
+import FormDisponibilidade from "../../components/Forms/FormDisponibilidade";
+import { getDias, getTurnos } from "./service";
 
-const Disponibilidade = () => {
-  const [diaSemana, setDiaSemana] = useState([]);
+export default function Disponibilidade() {
+  const [dias, setDias] = useState([]);
   const [turnos, setTurnos] = useState([]);
-  const [disponibilidade, setDisponibilidade] = useState([]);
-
-  const ano = new Date().getFullYear();
 
   useEffect(() => {
-    const fetchDiaSemanas = async () => {
+    const fetchDias = async () => {
       try {
         const resultado = await getDias();
-        setDiaSemana(resultado.data); // Armazena os dias da semana
+        setDias(resultado.data);
       } catch (error) {
         console.log(error);
       }
     };
-    fetchDiaSemanas();
+    fetchDias();
   }, []);
 
   useEffect(() => {
     const fetchTurnos = async () => {
-      try {
+      try{
         const resultado = await getTurnos();
-        setTurnos(resultado.data); // Armazena os turnos
-      } catch (error) {
-        console.log(error);
+        setTurnos(resultado.data)
+      }catch(error){
+        console.log(error)
       }
     };
     fetchTurnos();
   }, []);
 
-  // Função chamada ao marcar/desmarcar um checkbox
-  const handleCheckboxChange = (diaId, turnoId, checked) => {
-    if (checked) {
-      // Se estiver marcado, adiciona ao array de disponibilidade
-      setDisponibilidade([...disponibilidade, { diaId, turnoId }]);
-    } else {
-      // Se desmarcado, remove do array
-      setDisponibilidade(disponibilidade.filter(item => item.diaId !== diaId || item.turnoId !== turnoId));
-    }
+  const inicialDisponibilidade = {
+    "segunda-feira": { manhã: true, tarde: false, noite: false },
+    "terça-feira": { manhã: false, tarde: false, noite: false },
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(e.target.elements.anoInput.value)
-    disponibilidade.map((item)=>{
-       const objectDisponibilidade = {
-          professorId: 12,
-          diaSemanaId:item.diaId,
-          turnoId:  item.turnoId,
-          ano: e.target.elements.anoInput.value,
-          semestre:1
+  const [availability, setAvailability] = useState(inicialDisponibilidade);
 
-       }
-       insertDisponibilidade(objectDisponibilidade)
-       //console.log(JSON.stringify(objectDisponibilidade))
-    })
-    
+  const handleFormChange = (field, value) => {
+    console.log(`${field}: ${value}`);
   };
 
   return (
-    <div>
-      <Center>
-        <div className="central">
-          <form onSubmit={handleSubmit}>
-            <div className="form-container">
-              <div className="input-group">
-                <label htmlFor="professor">Professor</label>
-                <input type="text" className="professor" id="professorInput" value="Wilker" readOnly />
-              </div>
-
-              <div className="input-group">
-                <label htmlFor="semestre">Semestre</label>
-                <input type="number" className="semestre" id="semestreInput" />
-              </div>
-
-              <div className="input-group">
-                <label htmlFor="ano">Ano</label>
-                <input type="number" className="ano" id="anoInput" value={ano} readOnly />
-              </div>
-            </div>
-
-            <div className="geralTableContainer">
-              <h2 className="geralTableTitle">Disponibilidade</h2>
-              <table border="1" className="MatrizDisponibilidade">
-                <thead>
-                  <tr>
-                    <th>Day</th>
-                    {turnos.map((shift, index) => (
-                      <th key={index}>{shift.nome}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {diaSemana.map((day, rowIndex) => (
-                    <tr key={rowIndex}>
-                      <td>{day.nome}</td>
-                      {turnos.map((shift, colIndex) => (
-                        <td key={colIndex}>
-                          <input
-                            type="checkbox"
-                            name={`${shift.nome}-${day.nome}`}
-                            onChange={(e) =>
-                              handleCheckboxChange(day.id, shift.id, e.target.checked)
-                            } // Captura o id do dia e do turno e se está marcado
-                          />
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            <button type="submit">Enviar</button>
-          </form>
-        </div>
-      </Center>
+    <div className="page-container">
+      <div className="content-wrapper">
+        <Heading as="h1" className="page-title">
+          Disponibilidade do professor
+        </Heading>
+        <FormDisponibilidade
+          nomeProfessor="João da Silva"
+          semestre="5"
+          ano="2024"
+          disponibilidade={availability}
+          onChange={(field, value) => handleFormChange(field, value)}
+          onDisponibilidadeChange={(newDisponibilidade) =>
+            setAvailability(newDisponibilidade)
+          }
+          days={dias}
+          turnos={turnos}
+        />
+      </div>
     </div>
   );
-};
-
-export default Disponibilidade;
+}

@@ -10,7 +10,6 @@ import {
   useDisclosure
 } from "@chakra-ui/react";
 import "../tables/Table.css";
-import FormProf from '../Forms/FormProf';
 
 const TableProf = () => {
   const [professores, setProfessores] = useState([]);
@@ -171,12 +170,7 @@ const TableProf = () => {
         </AlertDialogOverlay>
       </AlertDialog>
 
-      <FormProf
-        isOpen={isEditModalOpen}
-        onClose={handleEditModalClose}
-        professor={selectedProfessor}
-        onProfessorAdded={handleProfessorUpdated}
-      />
+
     </div>
   );
 };

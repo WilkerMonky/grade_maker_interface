@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FormProf from '../../components/Forms/FormProf';
+
 import TableProf from '../../components/tables/TableProf';
 import '../../components/global.css';
 import { Heading } from '@chakra-ui/react';
