@@ -15,8 +15,13 @@ import FormDisponibilidade from "../../components/Forms/FormDisponibilidade";
 import { getDias, getTurnos } from "./service";
 
 export default function Disponibilidade() {
+
+
   const [dias, setDias] = useState([]);
   const [turnos, setTurnos] = useState([]);
+  const [anoAtual, setAnoAtual] = useState(new Date().getFullYear())
+  const [disponibilidade, setDisponibilidade] = useState([]);
+
 
   useEffect(() => {
     const fetchDias = async () => {
@@ -27,20 +32,26 @@ export default function Disponibilidade() {
         console.log(error);
       }
     };
-    fetchDias();
+    fetchDias();  
   }, []);
 
   useEffect(() => {
     const fetchTurnos = async () => {
-      try{
+      try {
         const resultado = await getTurnos();
-        setTurnos(resultado.data)
-      }catch(error){
-        console.log(error)
+        setTurnos(resultado.data);
+      } catch (error) {
+        console.log(error);
       }
     };
     fetchTurnos();
   }, []);
+
+
+
+
+
+
 
   const inicialDisponibilidade = {
     "segunda-feira": { manhã: true, tarde: false, noite: false },
@@ -55,14 +66,30 @@ export default function Disponibilidade() {
 
   return (
     <div className="page-container">
-      <div className="content-wrapper">
-        <Heading as="h1" className="page-title">
+      <div className="content-wrapper" >
+        <Heading className="page-title"
+          as="h2"
+          fontSize="2xl"
+          position="relative"
+          textAlign="center"
+          _after={{
+            content: '""',
+            display: "block",
+            width: "100%",
+            height: "5px",
+            backgroundColor: "purple.500", // Altere a cor para o desejado
+            position: "absolute",
+            bottom: "-5px", // Ajuste a posição vertical
+            left: 0,
+          }}
+        
+        >
           Disponibilidade do professor
         </Heading>
         <FormDisponibilidade
           nomeProfessor="João da Silva"
           semestre="5"
-          ano="2024"
+          ano={anoAtual}
           disponibilidade={availability}
           onChange={(field, value) => handleFormChange(field, value)}
           onDisponibilidadeChange={(newDisponibilidade) =>
