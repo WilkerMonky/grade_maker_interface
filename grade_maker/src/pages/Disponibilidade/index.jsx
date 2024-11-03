@@ -12,16 +12,13 @@ import { useEffect, useState } from "react";
 import React from "react";
 import imagemPrincipal from "../../assets/ImagemFigma.png";
 import FormDisponibilidade from "../../components/Forms/FormDisponibilidade";
-import { getDias, getTurnos } from "./service";
+import { getDias, getDispProf, getTurnos } from "./service";
 
 export default function Disponibilidade() {
-
-
   const [dias, setDias] = useState([]);
   const [turnos, setTurnos] = useState([]);
-  const [anoAtual, setAnoAtual] = useState(new Date().getFullYear())
+  const [anoAtual, setAnoAtual] = useState(new Date().getFullYear());
   const [disponibilidade, setDisponibilidade] = useState([]);
-
 
   useEffect(() => {
     const fetchDias = async () => {
@@ -32,7 +29,7 @@ export default function Disponibilidade() {
         console.log(error);
       }
     };
-    fetchDias();  
+    fetchDias();
   }, []);
 
   useEffect(() => {
@@ -47,18 +44,20 @@ export default function Disponibilidade() {
     fetchTurnos();
   }, []);
 
+  useEffect(() => {
+    const fetchDisponibilidade = async () => {
+      try {
+        const resultado = await getDispProf(39);
+        setDisponibilidade(resultado.data)
+      } catch (error) {
+        console.log("Erro inesperado: " + error);
+      }
+    };
+    fetchDisponibilidade();
+  }, []);
 
 
 
-
-
-
-  const inicialDisponibilidade = {
-    "segunda-feira": { manhã: true, tarde: false, noite: false },
-    "terça-feira": { manhã: false, tarde: false, noite: false },
-  };
-
-  const [availability, setAvailability] = useState(inicialDisponibilidade);
 
   const handleFormChange = (field, value) => {
     console.log(`${field}: ${value}`);
@@ -66,8 +65,9 @@ export default function Disponibilidade() {
 
   return (
     <div className="page-container">
-      <div className="content-wrapper" >
-        <Heading className="page-title"
+      <div className="content-wrapper">
+        <Heading
+          className="page-title"
           as="h2"
           fontSize="2xl"
           position="relative"
@@ -82,7 +82,6 @@ export default function Disponibilidade() {
             bottom: "-5px", // Ajuste a posição vertical
             left: 0,
           }}
-        
         >
           Disponibilidade do professor
         </Heading>
@@ -90,10 +89,10 @@ export default function Disponibilidade() {
           nomeProfessor="João da Silva"
           semestre="5"
           ano={anoAtual}
-          disponibilidade={availability}
+          disponibilidade={disponibilidade}
           onChange={(field, value) => handleFormChange(field, value)}
           onDisponibilidadeChange={(newDisponibilidade) =>
-            setAvailability(newDisponibilidade)
+            setDisponibilidade(newDisponibilidade)
           }
           days={dias}
           turnos={turnos}

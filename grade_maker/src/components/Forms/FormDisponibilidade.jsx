@@ -8,11 +8,16 @@ import {
   Text,
   Image,
   Select,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 import imagemPrincipal from "../../assets/ImagemFigma.png";
-import { insertDisponibilidade } from "../../pages/Disponibilidade/service";
+import {
+  deleteteByIdProf,
+  getDispProf,
+  insertDisponibilidade,
+} from "../../pages/Disponibilidade/service";
 
 // Componente principal para o formulário de professor
 const FormDisponibilidade = ({
@@ -25,6 +30,7 @@ const FormDisponibilidade = ({
   days = [],
   turnos = [],
 }) => {
+  const toast = useToast();
   const [disponibilidade, setDisponibilidade] = useState([]);
 
   const handleToggle = (dayId, periodId) => {
@@ -48,17 +54,39 @@ const FormDisponibilidade = ({
 
     selecionados.map((disp) => {
       const objectDisponibilidade = {
-        professorId: 12,
+        professorId: 39,
         diaSemanaId: disp.dayId,
         turnoId: disp.periodId,
         ano: e.target.elements.anoInput.value,
         semestre: e.target.elements.semestreInput.value,
       };
-      insertDisponibilidade(objectDisponibilidade);
-      console.log(JSON.stringify(objectDisponibilidade));
+      try {
+        deleteteByIdProf(objectDisponibilidade.professorId);
+        insertDisponibilidade(objectDisponibilidade);
+      }catch(error){
+        toast({
+          title: "Operação realizada com sucesso.",
+          description: error,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+          position: "top-right", // Define a posição do toast
+        });
+      }
+
+
+    });
+    toast({
+      title: "Sucesso!",
+      description: 'Disponibilidade atribuida com sucesso',
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+      position: "top-right", // Define a posição do toast
     });
 
-    console.log("Selecionados:", selecionados); // Exibe os dias e turnos selecionados
+
+   
   };
 
   return (
@@ -105,7 +133,7 @@ const FormDisponibilidade = ({
                   }}
                   placeholder="Ano"
                   width="100px"
-                  value={ano}
+                  defaultValue={ano}
                   id="anoInput"
                 />
               </Box>
