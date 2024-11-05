@@ -70,8 +70,9 @@ export const getDispProf = async (id) => {
         throw new Error(`HTTP error! status: ${resposta.status}`);
       }
       const dadosJson = await resposta.json();
-      if (dadosJson) {
-        return dadosJson;
+      if (dadosJson) { 
+        
+        return dadosJson.data;
       } else {
         throw new Error("Formato de dados inesperado");
       }
@@ -99,7 +100,7 @@ export const deleteteByIdProf = async (id) => {
       }
       return true;
     } catch (erro) {
-      console.error("Erro ao buscar Disponibilidade", erro);
+      console.error("Erro ao deletar disponibilidade", erro);
       setErro(erro.message);
     }
   };

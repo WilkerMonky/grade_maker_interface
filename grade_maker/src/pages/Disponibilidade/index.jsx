@@ -20,6 +20,12 @@ export default function Disponibilidade() {
   const [anoAtual, setAnoAtual] = useState(new Date().getFullYear());
   const [disponibilidade, setDisponibilidade] = useState([]);
 
+  const professor = {
+    id: 39,
+    nome:"Eliel Silva da Cruz"
+  }
+
+
   useEffect(() => {
     const fetchDias = async () => {
       try {
@@ -43,8 +49,8 @@ export default function Disponibilidade() {
     };
     fetchTurnos();
   }, []);
-
-  useEffect(() => {
+ 
+  useEffect(() => { 
     const fetchDisponibilidade = async () => {
       try {
         const resultado = await getDispProf(39);
@@ -96,6 +102,7 @@ export default function Disponibilidade() {
           }
           days={dias}
           turnos={turnos}
+          professor={professor}
         />
       </div>
     </div>

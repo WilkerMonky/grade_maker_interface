@@ -29,9 +29,29 @@ const FormDisponibilidade = ({
   onDisponibilidadeChange,
   days = [],
   turnos = [],
+  professor = {}
 }) => {
   const toast = useToast();
   const [disponibilidade, setDisponibilidade] = useState([]);
+
+  useEffect(() => { 
+    const fetchDisponibilidade = async () => {
+      try {
+        const resultado = await getDispProf(39);
+        resultado.map((res)=>{
+          console.log(res.diaSemanaId)
+        })
+        
+
+      } catch (error) {
+        console.log("Erro inesperado: " + error);
+      }
+    };
+    fetchDisponibilidade();
+  }, []);
+  
+
+
 
   const handleToggle = (dayId, periodId) => {
     setDisponibilidade((prevDisponibilidade) => ({
@@ -45,48 +65,53 @@ const FormDisponibilidade = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Obter os dias e turnos selecionados
     const selecionados = Object.keys(disponibilidade).flatMap((dayId) => {
       const turnosSelecionados = Object.keys(disponibilidade[dayId])
         .filter((periodId) => disponibilidade[dayId][periodId])
         .map((periodId) => ({ dayId, periodId }));
       return turnosSelecionados;
     });
-
-    selecionados.map((disp) => {
-      const objectDisponibilidade = {
-        professorId: 39,
-        diaSemanaId: disp.dayId,
-        turnoId: disp.periodId,
-        ano: e.target.elements.anoInput.value,
-        semestre: e.target.elements.semestreInput.value,
-      };
-      try {
-        deleteteByIdProf(objectDisponibilidade.professorId);
+  
+    try {
+      // Deleta a disponibilidade antes de inserir as novas
+      await deleteteByIdProf(professor.id);
+  
+      // Insere as novas disponibilidades
+      selecionados.map((disp) => {
+        const objectDisponibilidade = {
+          professorId: professor.id,
+          diaSemanaId: disp.dayId,
+          turnoId: disp.periodId,
+          ano: e.target.elements.anoInput.value,
+          semestre: e.target.elements.semestreInput.value,
+        };
+        
+        // Chame a função de inserção para cada item
         insertDisponibilidade(objectDisponibilidade);
-      }catch(error){
-        toast({
-          title: "Operação realizada com sucesso.",
-          description: error,
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-          position: "top-right", // Define a posição do toast
-        });
-      }
-
-
-    });
-    toast({
-      title: "Sucesso!",
-      description: 'Disponibilidade atribuida com sucesso',
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-      position: "top-right", // Define a posição do toast
-    });
-
-
-   
+      });
+  
+      // Toast de sucesso
+      toast({
+        title: "Disponibilidade agendada",
+        description: "Disponibilidades atualizadas com sucesso.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    } catch (error) {
+      // Toast de erro
+      toast({
+        title: "Erro ao marcar ",
+        description: "Algo deu errado.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
   };
 
   return (
@@ -101,6 +126,8 @@ const FormDisponibilidade = ({
                 <Input
                   placeholder="Nome do professor"
                   width="400px"
+                  value={professor.nome}
+                  readOnly
                   _focus={{
                     borderColor: "purple",
                     boxShadow: "0 0 0 1px #805AD5", // Sombra roxa ao redor do input
@@ -112,6 +139,7 @@ const FormDisponibilidade = ({
                 <Select
                   placeholder="Semestre"
                   id="semestreInput"
+                  isRequired
                   _focus={{
                     borderColor: "purple",
                     boxShadow: "0 0 0 1px #805AD5", // Sombra roxa ao redor do input
