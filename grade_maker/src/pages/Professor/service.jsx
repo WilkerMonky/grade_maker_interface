@@ -1,11 +1,15 @@
+import Professor from ".";
+
 //get de Professor
 export const getProfessor = async () => {
   try {
     const resposta = await fetch("http://localhost:8080/api/professor");
+   
     if (!resposta.ok) {
       throw new Error(`HTTP error! status: ${resposta.status}`);
     }
     const dadosJson = await resposta.json();
+  
     if (Array.isArray(dadosJson)) {
       return dadosJson;
     } else if (typeof dadosJson === "object" && dadosJson !== null) {
